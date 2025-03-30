@@ -1,0 +1,47 @@
+.
+├── README.md
+├── package-lock.json
+├── package.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── src
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── axiosConfig.jsx
+│   ├── components
+│   │   ├── Navbar.jsx
+│   │   ├── TaskForm.jsx
+│   │   └── TaskList.jsx
+│   ├── context
+│   │   └── AuthContext.js
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── pages
+│   │   ├── Login.jsx
+│   │   ├── Profile.jsx
+│   │   ├── Register.jsx
+│   │   ├── Tasks.jsx
+│   │   ├── doctor
+│   │   │   ├── AddTreatmentSummary.jsx
+│   │   │   ├── DoctorAppointments.jsx
+│   │   │   ├── DoctorHome.jsx
+│   │   │   ├── DoctorMedicalRecords.jsx
+│   │   │   └── DoctorProfile.jsx
+│   │   └── patient
+│   │       ├── PatientAppointments.jsx
+│   │       ├── PatientHome.jsx
+│   │       ├── PatientProfile.jsx
+│   │       └── ScheduleAppointment.jsx
+│   ├── reportWebVitals.js
+│   └── setupTests.js
+├── structure.txt
+└── tailwind.config.js
+
+8 directories, 37 files

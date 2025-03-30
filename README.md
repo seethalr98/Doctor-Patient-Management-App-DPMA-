@@ -1,3 +1,5 @@
+
+
 Doctor-Patient Management System:
 It is a digital application designed to facilitate the interactions between doctors and patients. It allows patients to book appointments, doctors to manage their schedules and both have access to manage their medical records securely.
 
@@ -24,6 +26,11 @@ Features:
 6. Role-based route protection
 
 7. Integrated CI/CD pipeline for auto deployment
+
+
+
+//Git hub link: https://github.com/seethalr98/Doctor-Patient-Management-App-DPMA-
+//JIRA Link: https://rseethal1998.atlassian.net/jira/software/projects/DPMA/boards/34/backlog
 
 Backend Setup:
   cd backend

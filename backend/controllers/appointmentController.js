@@ -2,10 +2,9 @@ const Doctor = require('../models/Doctor');
 const Appointment = require('../models/Appointment');
 
 const createAppointment = async (req, res) => {
-  console.log("Inside createappointment");
   const { doctor, date, time, reason } = req.body;
   try {
-    console.log(req.body);
+    
     const newAppointment = await Appointment.create({
       doctor,
       date,

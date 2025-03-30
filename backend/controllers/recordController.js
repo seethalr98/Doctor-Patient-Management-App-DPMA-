@@ -6,16 +6,11 @@ const getRecordsByPatientId = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.params.patientEmail });
 
-    console.log("user");
-    console.log(user);
-
     if (!user) {
       return res.status(404).json({ message: 'Patient not found' });
     }
 
     const records = await MedicalRecord.find({ patientId: user._id });
-
-    console.log(records);
 
     res.json(records);
   } catch (err) {
