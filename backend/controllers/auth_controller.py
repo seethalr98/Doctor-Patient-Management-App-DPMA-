@@ -5,6 +5,8 @@ import jwt
 import os
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
+from design_patterns.factory.user_factory import UserFactory
+
 
 JWT_SECRET = os.getenv("JWT_SECRET", "your-secret-key")
 
@@ -24,7 +26,42 @@ def generate_token(user_id, role):
 #     print("📥 register_user() called")
 #     return {"message": "Register endpoint working"}, 200
 
+
+# ✅ Register user (Factory Pattern applied - simplified)
 def register_user():
+    print("📥 Inside register_user (using Factory Pattern)")
+    data = request.get_json()
+    name = data.get("name")
+    email = data.get("email")
+    password = data.get("password")
+    role = data.get("role")
+
+    if User.objects(email=email).first():
+        return jsonify({"message": "User already exists"}), 400
+
+    try:
+        # ✅ Use Factory to create the user (no phone/address)
+        user = UserFactory.create_user(
+            role=role,
+            name=name,
+            email=email,
+            password=password
+        )
+        user.save()
+
+        return jsonify({
+            "id": str(user.id),
+            "name": user.name,
+            "email": user.email,
+            "role": user.role,
+            "token": generate_token(user.id, user.role)
+        }), 201
+
+    except ValueError as e:
+        return jsonify({"message": str(e)}), 400
+
+#remove register_user2 while commiting code.
+def register_user2():
     print("inside register user")
     data = request.get_json()
     name = data.get("name")
