@@ -5,7 +5,6 @@ on:
     branches:
       - main  # Trigger CI on pushes to the main branch
 
-
 jobs:
   test:
     name: Run Tests
@@ -14,7 +13,6 @@ jobs:
     strategy:
       matrix:
         node-version: [22] # Test on multiple Node.js versions
-
 
     environment: MONGO_URI
 
@@ -29,7 +27,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Print Env Secret
-
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
@@ -41,15 +38,40 @@ jobs:
       
     - run: pm2 stop all
 
-    # Install dependencies for backend
-    - name: Install Backend Dependencies
+    #############################
+    # ✅ Python Backend Section
+    #############################
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Python Backend Dependencies
+      working-directory: ./backend
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Backend Tests with Pytest
+      working-directory: ./backend
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        PORT: ${{ secrets.PORT }}
+      run: pytest tests
+
+    #############################
+    # Frontend Build
+    #############################
+
+    - name: Install Backend Node Dependencies
       working-directory: ./backend
       run: | 
-       npm install --global yarn
-       yarn --version
-       yarn install
-      
-    # Install dependencies for frontend
+        npm install --global yarn
+        yarn --version
+        yarn install
+
     - name: Install Frontend Dependencies
       working-directory: ./frontend
       run: |
@@ -58,23 +80,16 @@ jobs:
         yarn install
         yarn run build
 
-
-    # Run backend tests
-    - name: Run Backend Tests
-      env:
-        MONGO_URI: ${{ secrets.MONGO_URI }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        PORT: ${{ secrets.PORT }}
-      working-directory: ./backend
-      run: npm test
-
+    #############################
+    # Restart Server (pm2)
+    #############################
 
     - run: npm ci
+
     - run: | 
         cd ./backend
         touch .env
         echo "${{ secrets.PROD }}" > .env
 
     - run: pm2 start all
-
     - run: pm2 restart all
