@@ -29,48 +29,6 @@ const Login = () => {
     }
   };
   
-
-
-//richu
-
-  // const handleSubmit = async (e) => {
-  //   console.log("Hello");
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axiosInstance.post('/api/auth/login', formData);
-  //     login(response.data);
-  //     console.log(response.data);
-  //     if (response.data.role === 'doctor') {
-  //             navigate('/doctor');
-  //           } else {
-  //             navigate('/patient');
-  //           }
-  //   } catch (error) {
-  //     alert('Login failed. Please try again.');
-  //   }
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await axiosInstance.post('/api/auth/login', formData);
-  //     const { token, role } = res.data;
-  //     console.write("role");
-  //     console.write(role);
-  //     localStorage.setItem('token', token);
-  //     localStorage.setItem('role', role);
-  //     console.write("role");
-  //     console.write(role);
-  
-  //     if (role === 'doctor') {
-  //       navigate('/doctor');
-  //     } else {
-  //       navigate('/patient');
-  //     }
-  //   } catch (error) {
-  //     alert('Login failed. Please try again.');
-  //   }
-  // };
   
 
   return (
