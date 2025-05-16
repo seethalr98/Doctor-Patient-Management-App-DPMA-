@@ -17,7 +17,7 @@ app.url_map.strict_slashes = False
 # CORS(app)
 
 # CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
-CORS(app, resources={r"/api/*": {"origins": "http://13.211.170.208:3000"}}, supports_credentials=True)
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 # Connect to MongoDB
 connect_db(app)
 
@@ -37,4 +37,5 @@ app.register_blueprint(record_bp, url_prefix="/api/records")
 # Run the app
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5001))
-    app.run(debug=True, host="0.0.0.0", port=port)
+    # app.run(debug=True, host="0.0.0.0", port=port)
+    app.run(debug=True, port=port)
