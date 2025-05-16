@@ -7,7 +7,7 @@ import os
 # Load .env variables
 load_dotenv()
 
-# Initialize Flask app
+# Initialize Flask appx
 app = Flask(__name__)
 
 app.url_map.strict_slashes = False
@@ -17,7 +17,7 @@ app.url_map.strict_slashes = False
 # CORS(app)
 
 # CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
-CORS(app, resources={r"/api/*": {"origins": "http://13.211.170.208:3000"}}, supports_credentials=True)
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 # Connect to MongoDB
 connect_db(app)
 
