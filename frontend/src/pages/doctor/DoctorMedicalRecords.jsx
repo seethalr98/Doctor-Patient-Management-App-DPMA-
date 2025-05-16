@@ -14,6 +14,22 @@ const DoctorMedicalRecords = () => {
   const fetchRecords = async () => {
     try {
       const token = localStorage.getItem('token');
+      const res = await axiosInstance.get(`/api/records?patientEmail=${encodeURIComponent(patientEmail)}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.error(res.data); //remove this later
+      setRecords(res.data);
+    } catch (err) {
+      console.error('Error fetching records:', err);
+      alert('No records found or invalid email');
+    }
+  };
+  
+  const fetchRecords2 = async () => {
+    try {
+      const token = localStorage.getItem('token');
       const res = await axiosInstance.get(`/api/records/${patientEmail}`, {
         headers: {
           Authorization: `Bearer ${token}`,
