@@ -7,18 +7,12 @@ const DoctorAppointments = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        console.log("call");
         const token = localStorage.getItem('token');
-        //const res = await axiosInstance.get('/api/doctors/appointments'); // Adjust endpoint
-
         const res = await axiosInstance.get('/api/doctors/appointments', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
-
-        console.log(res.data);
         setAppointments(res.data);
       } catch (err) {
         console.error('Error fetching appointments:', err);
@@ -35,8 +29,8 @@ const DoctorAppointments = () => {
       ) : (
         <ul className="space-y-4">
           {appointments.map((appt) => (
-            <li key={appt._id} className="p-4 border rounded shadow">
-              <p><strong>Patient:</strong> {appt.patientName}</p>
+            <li key={appt.id} className="p-4 border rounded shadow">
+              <p><strong>Patient:</strong> {appt.patient?.name || 'Unknown'}</p>
               <p><strong>Date:</strong> {appt.date}</p>
               <p><strong>Time:</strong> {appt.time}</p>
               <p><strong>Reason:</strong> {appt.reason}</p>

@@ -24,13 +24,14 @@ const PatientAppointments = () => {
     if (!confirm) return;
 
     try {
+      console.log("Deleting appointment with ID:", id); // 🔍 Debug log
       const token = localStorage.getItem('token');
       await axiosInstance.delete(`/api/appointments/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setAppointments(appointments.filter((appt) => appt._id !== id));
+      setAppointments(appointments.filter((appt) => (appt._id || appt.id) !== id));
       alert('Appointment canceled.');
     } catch (error) {
       alert('Failed to cancel appointment.');
@@ -49,17 +50,20 @@ const PatientAppointments = () => {
         <p>No appointments scheduled.</p>
       ) : (
         <ul style={{ listStyle: 'none', padding: 0 }}>
-          {appointments.map((appt) => (
-            <li key={appt._id} style={cardStyle}>
-              <p><strong>Doctor:</strong> {appt.doctor}</p>
-              <p><strong>Date:</strong> {appt.date}</p>
-              <p><strong>Time:</strong> {appt.time}</p>
-              <p><strong>Reason:</strong> {appt.reason}</p>
-              <button onClick={() => deleteAppointment(appt._id)} style={deleteBtnStyle}>
-                Cancel
-              </button>
-            </li>
-          ))}
+          {appointments.map((appt) => {
+            const apptId = appt._id || appt.id;
+            return (
+              <li key={apptId} style={cardStyle}>
+                <p><strong>Doctor:</strong> {appt.doctor}</p>
+                <p><strong>Date:</strong> {appt.date}</p>
+                <p><strong>Time:</strong> {appt.time}</p>
+                <p><strong>Reason:</strong> {appt.reason}</p>
+                <button onClick={() => deleteAppointment(apptId)} style={deleteBtnStyle}>
+                  Cancel
+                </button>
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
