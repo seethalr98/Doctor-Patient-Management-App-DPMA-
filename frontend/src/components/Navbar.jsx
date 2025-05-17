@@ -6,7 +6,7 @@ import axiosInstance from '../axiosConfig';
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [appointmentCount, setAppointmentCount] = useState(0);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const handleLogout = () => {
     logout();
@@ -16,21 +16,37 @@ const Navbar = () => {
   const homePath = user?.role === 'doctor' ? '/doctor' : user?.role === 'patient' ? '/patient' : '/';
 
   useEffect(() => {
-    const fetchDoctorAppointments = async () => {
+    const fetchUnreadCount = async () => {
       if (user?.role === 'doctor' && user?.token) {
         try {
-          const response = await axiosInstance.get('/api/appointments/doctor', {
+          const res = await axiosInstance.get('/api/appointments/unread-count', {
             headers: { Authorization: `Bearer ${user.token}` },
           });
-          setAppointmentCount(response.data.length || 0);
+          setUnreadCount(res.data.count || 0);
         } catch (error) {
-          console.error('Failed to fetch appointments:', error);
+          console.error('Failed to fetch unread count:', error);
         }
       }
     };
 
-    fetchDoctorAppointments();
+    fetchUnreadCount();
   }, [user]);
+
+  const handleBellClick = async () => {
+    if (user?.role === 'doctor' && user?.token) {
+      try {
+        // Mark all as read before redirecting
+        await axiosInstance.put('/api/appointments/mark-read', null, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
+        setUnreadCount(0); // reset locally
+        navigate('/doctor/appointments');
+      } catch (error) {
+        console.error('Failed to mark appointments as read:', error);
+        navigate('/doctor/appointments'); // fallback navigation
+      }
+    }
+  };
 
   return (
     <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
@@ -41,17 +57,16 @@ const Navbar = () => {
           <>
             <Link to={homePath} className="hover:underline">Home</Link>
 
-            {/* 🔔 Notification Bell for Doctor */}
             {user.role === 'doctor' && (
               <div
-                onClick={() => navigate('/doctor/appointments')}
+                onClick={handleBellClick}
                 className="relative cursor-pointer"
                 title="View Appointments"
               >
                 <span className="text-2xl">🔔</span>
-                {appointmentCount > 0 && (
+                {unreadCount > 0 && (
                   <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
-                    {appointmentCount}
+                    {unreadCount}
                   </span>
                 )}
               </div>

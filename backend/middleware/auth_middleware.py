@@ -15,10 +15,11 @@ def protect(f):
                 token = auth_header.split(" ")[1]
                 decoded = jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
 
-                # ✅ Attach user info to request context
+                # ✅ Attach user info to request context (now includes email)
                 request.user = {
                     "id": decoded.get("id") or decoded.get("userId"),
-                    "role": decoded.get("role")
+                    "role": decoded.get("role"),
+                    "email": decoded.get("email")  # ✅ added email here
                 }
 
                 return f(*args, **kwargs)
