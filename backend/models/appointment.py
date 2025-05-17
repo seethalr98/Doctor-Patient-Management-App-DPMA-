@@ -1,6 +1,7 @@
 from mongoengine import Document, StringField, ReferenceField, DateTimeField
 from models.user import User
 from datetime import datetime
+from mongoengine import BooleanField
 
 class Appointment(Document):
     doctor = StringField(required=True)          # Display name
@@ -9,6 +10,7 @@ class Appointment(Document):
     time = StringField(required=True)            # Format: e.g. "10:30 AM"
     reason = StringField()
     userId = ReferenceField(User, required=True, reverse_delete_rule=2)
+    isRead = BooleanField(default=False)
 
     created_at = DateTimeField(default=datetime.utcnow)
     updated_at = DateTimeField(default=datetime.utcnow)

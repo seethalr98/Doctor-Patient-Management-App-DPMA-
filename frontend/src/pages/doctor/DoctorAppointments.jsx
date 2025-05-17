@@ -8,7 +8,7 @@ const DoctorAppointments = () => {
     const fetchAppointments = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axiosInstance.get('/api/doctors/appointments', {
+        const res = await axiosInstance.get('/api/appointments/doctor', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -18,6 +18,7 @@ const DoctorAppointments = () => {
         console.error('Error fetching appointments:', err);
       }
     };
+
     fetchAppointments();
   }, []);
 
@@ -34,6 +35,9 @@ const DoctorAppointments = () => {
               <p><strong>Date:</strong> {appt.date}</p>
               <p><strong>Time:</strong> {appt.time}</p>
               <p><strong>Reason:</strong> {appt.reason}</p>
+              {appt.isRead === false && (
+                <p className="text-sm text-red-600 font-medium">🆕 New</p>
+              )}
             </li>
           ))}
         </ul>
