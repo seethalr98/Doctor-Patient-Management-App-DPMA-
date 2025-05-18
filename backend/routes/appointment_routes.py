@@ -23,3 +23,4 @@ def delete_appointment_route(appointment_id):
 appointment_bp.route("/doctor", methods=["GET"])(protect(get_doctor_appointments))    # Doctor's appointments
 appointment_bp.route("/unread-count", methods=["GET"])(protect(get_unread_count))     # For bell badge
 appointment_bp.route("/mark-read", methods=["PUT"])(protect(mark_appointments_as_read))  # Mark all as read
+

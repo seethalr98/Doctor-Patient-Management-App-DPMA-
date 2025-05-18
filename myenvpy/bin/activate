@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/seethalraghavan/SeethalMIT/Semester2/SoftwareLifecyleManagement_636/Assignment2/DPMA/myenvpy"
+VIRTUAL_ENV="/Users/seethalraghavan/SeethalMIT/Semester2/SoftwareLifecyleManagement_636/Assignment2/MyProject/Doctor-Patient-Management-App-DPMA-/myenvpy"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
