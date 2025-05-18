@@ -3,28 +3,41 @@ import axiosInstance from '../../axiosConfig';
 
 const DoctorAppointments = () => {
   const [appointments, setAppointments] = useState([]);
+  const [sortBy, setSortBy] = useState('date');
+
+  const fetchAppointments = async (sortValue) => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axiosInstance.get(`/api/appointments/doctor?sort=${sortValue}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setAppointments(res.data);
+    } catch (err) {
+      console.error('Error fetching appointments:', err);
+    }
+  };
 
   useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const res = await axiosInstance.get('/api/appointments/doctor', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setAppointments(res.data);
-      } catch (err) {
-        console.error('Error fetching appointments:', err);
-      }
-    };
-
-    fetchAppointments();
-  }, []);
+    fetchAppointments(sortBy);
+  }, [sortBy]);
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-4">
-      <h2 className="text-2xl font-bold mb-4">My Appointments</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold">My Appointments</h2>
+
+        {/* 🔽 Sorting Dropdown */}
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="border p-2 rounded"
+        >
+          <option value="date">Sort by Date</option>
+          <option value="time">Sort by Time</option>
+          <option value="patient">Sort by Patient Name</option>
+        </select>
+      </div>
+
       {appointments.length === 0 ? (
         <p>No appointments yet.</p>
       ) : (
@@ -35,9 +48,6 @@ const DoctorAppointments = () => {
               <p><strong>Date:</strong> {appt.date}</p>
               <p><strong>Time:</strong> {appt.time}</p>
               <p><strong>Reason:</strong> {appt.reason}</p>
-              {appt.isRead === false && (
-                <p className="text-sm text-red-600 font-medium">🆕 New</p>
-              )}
             </li>
           ))}
         </ul>

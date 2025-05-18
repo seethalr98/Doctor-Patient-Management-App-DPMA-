@@ -26,7 +26,7 @@ const DoctorMedicalRecords = () => {
       alert('No records found or invalid email');
     }
   };
-   
+
   const handleInputChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };

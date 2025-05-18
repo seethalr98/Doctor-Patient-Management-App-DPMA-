@@ -7,3 +7,4 @@ mongoengine
 PyJWT
 Werkzeug
 pytest
+pytest-mock  # ✅ optional but useful for mocking in tests
